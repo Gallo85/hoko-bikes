@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestionar Publicación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Gestionar Publicación</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <h3 class="mt-4">Agregar Fotos</h3>
+                        <input type="file" name="new_photos" multiple class="form-control mb-3">
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

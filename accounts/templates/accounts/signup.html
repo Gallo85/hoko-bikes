@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}Registro - HOKO BIKES{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Regístrate</h1>
+
+    <!-- Mostrar mensajes de error -->
+    {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Mostrar errores del formulario -->
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    <li><strong>{{ field }}</strong>: 
+                        {% for error in errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="post" action="/accounts/signup/" class="mt-4">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            <label for="username" class="form-label">Nombre de Usuario</label>
+            <input 
+                type="text" 
+                class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                id="username" 
+                name="username" 
+                placeholder="Elige un usuario" 
+                value="{{ form.username.value|default:'' }}" 
+                required>
+            <div class="form-text">Debe tener entre 4 y 20 caracteres.</div>
+            {% for error in form.username.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input 
+                type="email" 
+                class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
+                id="email" 
+                name="email" 
+                placeholder="Tu correo" 
+                value="{{ form.email.value|default:'' }}" 
+                required>
+            <div class="form-text">Introduce una dirección de correo válida.</div>
+            {% for error in form.email.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="mb-3">
+            <label for="password1" class="form-label">Contraseña</label>
+            <input 
+                type="password" 
+                class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
+                id="password1" 
+                name="password1" 
+                placeholder="Elige una contraseña" 
+                required>
+            <div class="form-text" id="password-feedback">
+                La contraseña debe tener al menos 8 caracteres, incluir letras y números.
+            </div>
+            {% for error in form.password1.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="mb-3">
+            <label for="password2" class="form-label">Confirmar Contraseña</label>
+            <input 
+                type="password" 
+                class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
+                id="password2" 
+                name="password2" 
+                placeholder="Confirma tu contraseña" 
+                required>
+            <div class="form-text">Debe coincidir con la contraseña ingresada arriba.</div>
+            {% for error in form.password2.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Registrar</button>
+        </div>
+    </form>
+</div>
+
+<!-- Validación en tiempo real -->
+<script>
+    document.getElementById('password1').addEventListener('input', function() {
+        const password = this.value;
+        const feedback = document.getElementById('password-feedback');
+        if (password.length < 8) {
+            feedback.textContent = "La contraseña es demasiado corta (mínimo 8 caracteres).";
+            feedback.style.color = "red";
+        } else if (!/\d/.test(password)) {
+            feedback.textContent = "La contraseña debe incluir al menos un número.";
+            feedback.style.color = "red";
+        } else if (!/[a-zA-Z]/.test(password)) {
+            feedback.textContent = "La contraseña debe incluir al menos una letra.";
+            feedback.style.color = "red";
+        } else {
+            feedback.textContent = "Contraseña válida.";
+            feedback.style.color = "green";
+        }
+    });
+</script>
+{% endblock %}
+

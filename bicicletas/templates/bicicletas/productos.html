@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Productos - HOKO BIKES{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Productos</h1>
+    
+    <!-- Formulario de búsqueda -->
+    <form method="get" action="{% url 'bicicletas:productos' %}" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Buscar productos..." value="{{ query }}">
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        </div>
+    </form>
+    
+    <div class="row">
+        {% for bicicleta in bicicletas %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    {% if bicicleta.images.first %}
+                        <img src="{{ bicicleta.images.first.image.url }}" class="card-img-top" alt="{{ bicicleta.titulo }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ bicicleta.titulo }}</h5>
+                        <p class="card-text text-truncate">{{ bicicleta.descripcion }}</p>
+                        <p><strong>Precio:</strong> ${{ bicicleta.precio }}</p>
+                        <a href="{% url 'bicicletas:producto_detalle' bicicleta.id %}" class="btn btn-outline-primary btn-sm">Ver Detalle</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">No se encontraron productos que coincidan con tu búsqueda.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+

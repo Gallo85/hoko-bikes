@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+{% block title %}Publicar Bicicleta{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Publicar Bicicleta</h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">Información de la Bicicleta</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_titulo" class="form-label">Título</label>
+                            {{ form.titulo|add_class:"form-control" }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_descripcion" class="form-label">Descripción</label>
+                            {{ form.descripcion|add_class:"form-control" }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_color" class="form-label">Color</label>
+                                {{ form.color|add_class:"form-control" }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="id_rodado" class="form-label">Rodado</label>
+                                {{ form.rodado|add_class:"form-control" }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_estado" class="form-label">Estado</label>
+                            {{ form.estado|add_class:"form-select" }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_precio" class="form-label">Precio (ARS)</label>
+                            {{ form.precio|add_class:"form-control" }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_image" class="form-label">Imágenes (Máximo 5)</label>
+                            {{ formset.management_form }}
+                            {% for image_form in formset %}
+                                {{ image_form.image|add_class:"form-control mb-2" }}
+                            {% endfor %}
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success px-4">Publicar</button>
+                            <a href="{% url 'profile' %}" class="btn btn-secondary px-4">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+

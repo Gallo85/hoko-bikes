@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Perfil - HOKO BIKES{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Perfil de Usuario</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">Bienvenido, {{ user.username }}</h4>
+                </div>
+                <div class="card-body p-4">
+                    <p><strong>Correo Electrónico:</strong> {{ user.email }}</p>
+                    <p><strong>Nombre Completo:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p><strong>Teléfono:</strong> {{ user.telefono|default:"No proporcionado" }}</p>
+                    <p><strong>Dirección:</strong> {{ user.direccion|default:"No proporcionada" }}</p>
+                    <p><strong>Fecha de Registro:</strong> {{ user.date_joined|date:"d M Y" }}</p>
+                </div>
+                <div class="card-footer text-center bg-light d-flex justify-content-around flex-wrap">
+                    <a href="{% url 'edit_profile' %}" class="btn btn-outline-secondary my-2">Editar Perfil</a>
+                    <a href="{% url 'bicicletas:publish_bicycle' %}" class="btn btn-outline-secondary my-2">Publicar Bicicleta</a>
+                    <a href="{% url 'bicicletas:mis_publicaciones' %}" class="btn btn-outline-secondary my-2">Ver Mis Publicaciones</a>
+                    <form method="post" action="{% url 'logout' %}" class="d-inline my-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-secondary">Cerrar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+

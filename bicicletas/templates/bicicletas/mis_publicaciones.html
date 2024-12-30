@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Mis Publicaciones{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Mis Publicaciones</h1>
+    <div class="row">
+        {% for publicacion in publicaciones %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    {% if publicacion.images.first %}
+                        <img src="{{ publicacion.images.first.image.url }}" class="card-img-top" alt="{{ publicacion.titulo }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ publicacion.titulo }}</h5>
+                        <p class="card-text text-truncate">{{ publicacion.descripcion }}</p>
+                        <p><strong>Precio:</strong> ${{ publicacion.precio }}</p>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'bicicletas:producto_detalle' publicacion.id %}" class="btn btn-outline-secondary btn-sm">Ver Detalle</a>
+                            <a href="{% url 'bicicletas:editar_publicacion' publicacion.id %}" class="btn btn-outline-secondary btn-sm">Editar</a>
+                            <form method="post" action="{% url 'bicicletas:eliminar_publicacion' publicacion.id %}">
+                                {% csrf_token %}
+                                <button type="submit" 
+                                        class="btn btn-outline-secondary btn-sm" 
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar esta publicación?')">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">Aún no has publicado ninguna bicicleta.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
